@@ -1,0 +1,18 @@
+{
+  "parent": "item/handheld",
+  "loader": "forge:separate_transforms",
+  "base": {
+    "parent": "blowgunmod:item/blowgun_3d"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "blowgunmod:item/blowgun_2d"
+    },
+    "fixed": {
+      "parent": "blowgunmod:item/blowgun_2d"
+    }
+  },
+  "textures": {
+    "layer0": "blowgunmod:item/blowgun"
+  }
+}

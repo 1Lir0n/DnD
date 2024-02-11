@@ -4,10 +4,7 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -42,9 +39,9 @@ public class BlowGunMod
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
-    // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
-    public static final RegistryObject<Item> BLOWGUN = ITEMS.register("blowgun", () -> new Item(new Item.Properties().durability(250)));
+    public static final RegistryObject<Item> BLOWGUN = ITEMS.register("blowgun", () -> new BowItem(new Item.Properties().durability(250)));
 
+    public static final RegistryObject<Item> BLOWGUN_DART = ITEMS.register("blowgun_dart", ()-> new ArrowItem(new Item.Properties().stacksTo(64)));
 
     public BlowGunMod()
     {
@@ -76,8 +73,10 @@ public class BlowGunMod
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-        if (event.getTabKey() == CreativeModeTabs.COMBAT)
+        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
             event.accept(BLOWGUN);
+            event.accept(BLOWGUN_DART);
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

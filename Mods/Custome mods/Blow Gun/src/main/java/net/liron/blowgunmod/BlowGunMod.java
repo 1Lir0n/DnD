@@ -43,7 +43,7 @@ public class BlowGunMod
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
-    public static final RegistryObject<Item> BLOWGUN = ITEMS.register("blow_gun", () -> new Item(new Item.Properties().durability(250)));
+    public static final RegistryObject<Item> BLOWGUN = ITEMS.register("blowgun", () -> new Item(new Item.Properties().durability(250)));
 
 
     public BlowGunMod()

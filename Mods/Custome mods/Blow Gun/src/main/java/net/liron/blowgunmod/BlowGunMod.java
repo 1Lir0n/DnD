@@ -1,6 +1,8 @@
 package net.liron.blowgunmod;
 
 import com.mojang.logging.LogUtils;
+import net.liron.blowgunmod.item.BlowGunItem;
+import net.liron.blowgunmod.item.ModItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.food.FoodProperties;
@@ -34,14 +36,8 @@ public class BlowGunMod
     public static final String MODID = "blowgunmod";
     // Directly reference a slf4j logger
     private static final Logger LOGGER = LogUtils.getLogger();
-    // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
-
-    public static final RegistryObject<Item> BLOWGUN = ITEMS.register("blowgun", () -> new BowItem(new Item.Properties().durability(250)));
-
-    public static final RegistryObject<Item> BLOWGUN_DART = ITEMS.register("blowgun_dart", ()-> new ArrowItem(new Item.Properties().stacksTo(64)));
 
     public BlowGunMod()
     {
@@ -50,15 +46,14 @@ public class BlowGunMod
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
         // Register the Deferred Register to the mod event bus so items get registered
-        ITEMS.register(modEventBus);
+        ModItems.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
 
+        modEventBus.addListener(this::addCreative);
+
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-
-        // Register the item to a creative tab
-        modEventBus.addListener(this::addCreative);
 
         // Register our mod's ForgeConfigSpec so that Forge can create and load the config file for us
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -70,14 +65,12 @@ public class BlowGunMod
         LOGGER.info("HELLO FROM COMMON SETUP");
     }
 
-    // Add the example block item to the building blocks tab
-    private void addCreative(BuildCreativeModeTabContentsEvent event)
-    {
-        if (event.getTabKey() == CreativeModeTabs.COMBAT) {
-            event.accept(BLOWGUN);
-            event.accept(BLOWGUN_DART);
+    private  void addCreative(BuildCreativeModeTabContentsEvent event){
+        if(event.getTabKey()==CreativeModeTabs.COMBAT){
+            event.accept(ModItems.BLOWGUN);
         }
     }
+
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
